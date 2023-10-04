@@ -1,15 +1,27 @@
-import { Controller, Get } from '@nestjs/common';
-import { MessagingService } from './messaging.service';
+import { Controller } from '@nestjs/common';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly messagingService: MessagingService) {}
+  constructor(private readonly appService: AppService) {}
 
-  queueTopicOne(): void {
-    this.messagingService.rpcHandlerOne({});
+  topicOne(): void {
+    this.appService.topicOne({});
   }
 
-  queueTopicTow(): void {
-    this.messagingService.rpcHandlerTwo({});
+  topicTwo(): void {
+    this.appService.topicTwo({});
+  }
+
+  topicAll(): void {
+    this.appService.topicAll({});
+  }
+
+  direct(): void {
+    this.appService.direct({});
+  }
+
+  fanout(): void {
+    this.appService.fanout({});
   }
 }
