@@ -21,10 +21,7 @@ export class AppController {
     this.appService.direct({});
   }
 
-  fanoutOne(): void {
-    this.appService.fanoutOne({});
-  }
-  fanoutTwo(): void {
-    this.appService.fanoutTwo({});
+  fanout(): void {
+    this.appService.fanout({});
   }
 }

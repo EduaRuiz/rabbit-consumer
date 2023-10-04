@@ -43,21 +43,10 @@ export class AppService {
 
   @RabbitSubscribe({
     exchange: 'fanout_exchange',
-    // routingKey: 'fanout-route',
+    routingKey: 'fanout-route.1', //Dado que es un fanout, no importa el routingKey
     queue: 'fanout-queue',
   })
-  public fanoutOne(msg: object) {
-    console.log(
-      `Received message from fanout exchange: ${JSON.stringify(msg)}`,
-    );
-  }
-
-  @RabbitSubscribe({
-    exchange: 'fanout_exchange',
-    routingKey: 'fanout-route',
-    queue: 'fanout-queue',
-  })
-  public fanoutTwo(msg: object) {
+  public fanout(msg: object) {
     console.log(
       `Received message from fanout exchange: ${JSON.stringify(msg)}`,
     );
