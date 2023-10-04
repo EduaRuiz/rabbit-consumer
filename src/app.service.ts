@@ -1,24 +1,24 @@
-import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
+import { RabbitRPC, RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  @RabbitSubscribe({
+  @RabbitRPC({
     exchange: 'topic_exchange',
     routingKey: 'topic.one',
     queue: 'topic-queue_1',
   })
-  public topicOne(msg: object) {
-    console.log('Received message from topic exchange 1: ', msg);
+  public topicOne(msg: object): void {
+    console.log('Received message from topic.one from topic_exchange: ', msg);
   }
 
-  @RabbitSubscribe({
+  @RabbitRPC({
     exchange: 'topic_exchange',
     routingKey: 'topic.two',
     queue: 'topic-queue_2',
   })
   public topicTwo(msg: object) {
-    console.log('Received message from topic exchange 2: ', msg);
+    console.log('Received message from topic.two from topic_exchange: ', msg);
   }
   @RabbitSubscribe({
     exchange: 'topic_exchange',
@@ -26,13 +26,11 @@ export class AppService {
     queue: 'topic-queue_3',
   })
   public topicAll(msg: object) {
-    console.log('Received message from topic exchange 2: ', msg);
-    return {
-      response: 42,
-    };
+    console.log('Received message from topic.# from exchange_exchange: ', msg);
+    return msg;
   }
 
-  @RabbitSubscribe({
+  @RabbitRPC({
     exchange: 'direct_exchange',
     routingKey: 'direct-route',
     queue: 'direct-queue',
@@ -48,7 +46,18 @@ export class AppService {
     // routingKey: 'fanout-route',
     queue: 'fanout-queue',
   })
-  public fanout(msg: object) {
+  public fanoutOne(msg: object) {
+    console.log(
+      `Received message from fanout exchange: ${JSON.stringify(msg)}`,
+    );
+  }
+
+  @RabbitSubscribe({
+    exchange: 'fanout_exchange',
+    routingKey: 'fanout-route',
+    queue: 'fanout-queue',
+  })
+  public fanoutTwo(msg: object) {
     console.log(
       `Received message from fanout exchange: ${JSON.stringify(msg)}`,
     );
